@@ -68,6 +68,7 @@ Temporary Items
 # Ignore users config file but keep the sample.
 config
 !config/config.js.sample
+!config/config.js.template
 
 # Vim
 ## swap
@@ -88,3 +89,8 @@ yarn.lock
 
 # Vitest temporary test files
 tests/**/.tmp/
+
+# Ignore environment variable files
+.env
+.env.*.local
+.envrc

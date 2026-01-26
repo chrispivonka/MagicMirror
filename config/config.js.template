@@ -1,0 +1,167 @@
+/* Config generated from template using env variables. */
+
+const timeFormat = ${TIME_FORMAT:-24};
+const units = "${UNITS:-metric}";
+const homeLat = ${HOME_LATITUDE:-0};
+const homeLon = ${HOME_LONGITUDE:-0};
+const timezone = "${TIMEZONE:-UTC}";
+const mapsApiKey = "${GOOGLE_MAPS_API_KEY:-}";
+const workLat = ${JACKIE_WORK_LATITUDE:-0};
+const workLon = ${JACKIE_WORK_LONGITUDE:-0};
+const jackieCalendarUrl = "${JACKIE_GOOGLE_CALENDAR_URL:-}";
+const chrisCalendarUrl = "${CHRIS_GOOGLE_CALENDAR_URL:-}";
+
+let config = {
+  address: "localhost",
+  port: 8080,
+  basePath: "/",
+  ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
+  useHttps: false,
+  httpsPrivateKey: "",
+  httpsCertificate: "",
+  language: "en",
+  locale: "en-US",
+  logLevel: ["INFO", "LOG", "WARN", "ERROR"],
+  timeFormat: timeFormat,
+  units: units,
+  modules: [
+    {
+      module: "clock",
+      position: "top_left",
+      config: {
+        timeFormat: timeFormat,
+        timezone: timezone,
+        showPeriodUpper: true,
+        clockBold: false,
+        showSunTimes: true,
+        showMoonTimes: "phase",
+        lat: homeLat,
+        lon: homeLon
+      }
+    },
+    {
+      module: "weather",
+      position: "top_right",
+      header: "Home",
+      config: {
+        weatherProvider: "weathergov",
+        tempUnits: units,
+        windUnits: units,
+        roundTemp: true,
+        type: "current",
+        units: units,
+        degreeLabel: true,
+        updateInterval: 600000,
+        lat: homeLat,
+        lon: homeLon,
+        timeFormat: timeFormat,
+        showPeriod: true,
+        showPeriodUpper: true,
+        showPrecipitationProbability: true,
+        showUVIndex: true,
+        showPrecipitationAmount: true,
+        lang: "en",
+        type: "current"
+      }
+    },
+    {
+      module: "MMM-GoogleTrafficTimes",
+      position: "top_right",
+      config: {
+        key: mapsApiKey,
+        origins: {
+          home: {
+            address: `${homeLat},${homeLon}`,
+            addressFormat: "coordinates"
+          },
+          work: {
+            address: `${workLat},${workLon}`,
+            addressFormat: "coordinates"
+          }
+        },
+        destinations: [
+          {
+            origin: "home",
+            name: "Home -> Work",
+            address: `${workLat},${workLon}`,
+            addressFormat: "coordinates",
+            mode: "drive",
+            avoidHighways: false,
+            avoidTolls: true,
+            schedules: [
+              {
+                days: [1, 2, 3, 4, 5],
+                startHH: "06",
+                startMM: "00",
+                endHH: "09",
+                endMM: "00"
+              }
+            ],
+            showDestinationOutsideScheduleWithoutTraffic: true
+          }
+        ],
+        updateInterval: 900000,
+        avoidHighways: false,
+        avoidTolls: false,
+        avoidFerries: true,
+        mode: "drive",
+        language: "en-EN",
+        offsetTimePercentage: 25,
+        lastUpdate: true,
+        timeLastUpdateWarning: 30,
+        horizontalLayout: true,
+        debug: false
+      }
+    },
+    {
+      module: "MMM-CalendarWeek",
+      position: "bottom_bar",
+      config: {
+        allowDuplicates: true,
+        calendarTitle: "This week",
+        maximumEntries: 25,
+        maximumNumberOfDays: 7,
+        displaySymbol: true,
+        displayWeekNumber: true,
+        weekStartDay: 1,
+        fetchInterval: 10 * 60 * 1000,
+        showEndDate: true,
+        maxTitleLength: 25,
+        hideEmptyDays: false,
+        wrapEvents: true,
+        fetchInterval: 10 * 60 * 1000,
+        animationSpeed: 300000,
+        tableClass: "medium",
+        calendars: [
+          {
+            url: jackieCalendarUrl,
+            symbol: "person-dress",
+            color: "#00FF00"
+          },
+          {
+            url: chrisCalendarUrl,
+            symbol: "person",
+            color: "#0015ff"
+          }
+        ],
+        displayLocation: true,
+        displayDescription: true,
+        dateFormat: "MMM Do, YYYY",
+        fullDayEventDateFormat: "MMM Do, YYYY",
+        timeFormat: "dateheaders"
+      }
+    },
+    {
+      module: "MMM-Facts",
+      position: "bottom_bar",
+      config: {
+        updateInterval: 5 * 1 * 60,
+        fadeSpeed: 10,
+        category: "random"
+      }
+    }
+  ]
+};
+
+/*************** DO NOT EDIT THE LINE BELOW ***************/
+if (typeof module !== "undefined") { module.exports = config; }
